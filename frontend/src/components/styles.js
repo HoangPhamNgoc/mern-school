@@ -7,7 +7,7 @@ import {
     AppBar as MuiAppBar,
 } from "@mui/material";
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -23,7 +23,6 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     '&:last-child td, &:last-child th': {
         border: 0,
     },
@@ -60,14 +59,14 @@ export const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 
             boxSizing: 'border-box',
             ...(!open && {
                 overflowX: 'hidden',
-                transition: theme.transitions.create('width', {
-                    easing: theme.transitions.easing.sharp,
-                    duration: theme.transitions.duration.leavingScreen,
-                }),
                 width: theme.spacing(7),
                 [theme.breakpoints.up('sm')]: {
                     width: theme.spacing(9),
                 },
+                transition: theme.transitions.create('width', {
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.leavingScreen,
+                }),
             }),
         },
     }),

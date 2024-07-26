@@ -1,60 +1,29 @@
 export const calculateSubjectAttendancePercentage = (presentCount, totalSessions) => {
-    if (totalSessions === 0 || presentCount === 0) {
-        return 0;
-    }
-    const percentage = (presentCount / totalSessions) * 100;
-    return percentage.toFixed(2); // Limit to two decimal places
+    return totalSessions === 0 ? 0 : ((presentCount / totalSessions) * 100).toFixed(2);
 };
 
-
 export const groupAttendanceBySubject = (subjectAttendance) => {
-    const attendanceBySubject = {};
-
-    subjectAttendance.forEach((attendance) => {
-        const subName = attendance.subName.subName;
-        const sessions = attendance.subName.sessions;
-        const subId = attendance.subName._id;
-
-        if (!attendanceBySubject[subName]) {
-            attendanceBySubject[subName] = {
-                present: 0,
-                absent: 0,
-                sessions: sessions,
-                allData: [],
-                subId: subId
-            };
+    return subjectAttendance.reduce((acc, attendance) => {
+        const { subName: { subName, sessions, _id }, status, date } = attendance;
+        if (!acc[subName]) {
+            acc[subName] = { present: 0, absent: 0, sessions, allData: [], subId: _id };
         }
-        if (attendance.status === "Present") {
-            attendanceBySubject[subName].present++;
-        } else if (attendance.status === "Absent") {
-            attendanceBySubject[subName].absent++;
-        }
-        attendanceBySubject[subName].allData.push({
-            date: attendance.date,
-            status: attendance.status,
-        });
-    });
-    return attendanceBySubject;
-}
+        acc[subName][status.toLowerCase()]++;
+        acc[subName].allData.push({ date, status });
+        return acc;
+    }, {});
+};
 
 export const calculateOverallAttendancePercentage = (subjectAttendance) => {
-    let totalSessionsSum = 0;
-    let presentCountSum = 0;
-    const uniqueSubIds = [];
-
-    subjectAttendance.forEach((attendance) => {
-        const subId = attendance.subName._id;
-        if (!uniqueSubIds.includes(subId)) {
-            const sessions = parseInt(attendance.subName.sessions);
-            totalSessionsSum += sessions;
-            uniqueSubIds.push(subId);
+    const { totalSessionsSum, presentCountSum } = subjectAttendance.reduce((acc, attendance) => {
+        const { subName: { _id, sessions }, status } = attendance;
+        if (!acc.uniqueSubIds.includes(_id)) {
+            acc.totalSessionsSum += parseInt(sessions);
+            acc.uniqueSubIds.push(_id);
         }
-        presentCountSum += attendance.status === "Present" ? 1 : 0;
-    });
+        acc.presentCountSum += status === "Present" ? 1 : 0;
+        return acc;
+    }, { totalSessionsSum: 0, presentCountSum: 0, uniqueSubIds: [] });
 
-    if (totalSessionsSum === 0 || presentCountSum === 0) {
-        return 0;
-    }
-
-    return (presentCountSum / totalSessionsSum) * 100;
+    return totalSessionsSum === 0 ? 0 : (presentCountSum / totalSessionsSum) * 100;
 };
