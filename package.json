@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "main",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,10 +8,8 @@
     "build:backend": "cd backend && npm run build",
     "build:frontend": "cd frontend && npm run build",
     "build": "npm run build:backend && npm run build:frontend",
-    "heroku-postbuild": "npm run build",
-    "start:frontend": "react-scripts start",
-    "build:frontend": "react-scripts build",
-    "test:frontend": "react-scripts test",
-    "eject:frontend": "react-scripts eject"
-  }
+    "heroku-postbuild": "npm run build"
+  },
+  "nodemon": "^2.0.15",
+  "react-scripts": "^5.0.1"
 }
