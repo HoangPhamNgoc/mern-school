@@ -12,6 +12,5 @@
     "build:frontend": "cd frontend && npm i",
     "build": "npm run build:backend && npm run build:frontend",
     "heroku-postbuild": "npm run build"
-  },
-  "react-scripts": "5.0.1"
+  }
 }
