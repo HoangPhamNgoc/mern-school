@@ -9,8 +9,9 @@
   "scripts": {
     "start": "nodemon index.js",
     "build:backend": "cd backend && npm run build",
-    "build:frontend": "frontend/node_modules/.bin/react-scripts build",
+    "build:frontend": "cd frontend && react-scripts build",
     "build": "npm run build:backend && npm run build:frontend",
     "heroku-postbuild": "npm run build"
-  }
+  },
+  "react-scripts": "5.0.1"
 }
